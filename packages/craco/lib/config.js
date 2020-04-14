@@ -5,11 +5,12 @@ const { applyCracoConfigPlugins } = require("./features/plugins");
 const { POSTCSS_MODES } = require("./features/webpack/style/postcss");
 const { ESLINT_MODES } = require("./features/webpack/eslint");
 
+// 默认的 craco 注入配置
 const DEFAULT_CONFIG = {
     reactScriptsVersion: "react-scripts",
     style: {
         postcss: {
-            mode: POSTCSS_MODES.extends
+            mode: POSTCSS_MODES.extends // 默认的配置处理都是合并 而不是覆盖
         }
     },
     eslint: {
@@ -23,6 +24,7 @@ const DEFAULT_CONFIG = {
     }
 };
 
+// 检查 plugins 的注入格式是否准确
 function ensureConfigSanity(cracoConfig) {
     if (isArray(cracoConfig.plugins)) {
         cracoConfig.plugins.forEach((x, index) => {
@@ -34,10 +36,10 @@ function ensureConfigSanity(cracoConfig) {
 }
 
 function processCracoConfig(cracoConfig, context) {
-    let resultingCracoConfig = deepMergeWithArray({}, DEFAULT_CONFIG, cracoConfig);
-    ensureConfigSanity(resultingCracoConfig);
+    let resultingCracoConfig = deepMergeWithArray({}, DEFAULT_CONFIG, cracoConfig); // 这里和默认值合并 如果是对象走 Object.assign 如果是数组走 concat
+    ensureConfigSanity(resultingCracoConfig); // 检查 craco plugins 的配置格式是否正确
 
-    return applyCracoConfigPlugins(resultingCracoConfig, context);
+    return applyCracoConfigPlugins(resultingCracoConfig, context); // 执行 craco plugins 中的 overrideCracoConfig 回调函数配置
 }
 
 function loadCracoConfig(context) {

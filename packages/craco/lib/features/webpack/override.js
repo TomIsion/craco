@@ -7,7 +7,7 @@ const {
 } = require("../../cra");
 
 function overrideWebpackDev(cracoConfig, context) {
-    const craWebpackConfig = loadWebpackDevConfig(cracoConfig);
+    const craWebpackConfig = loadWebpackDevConfig(cracoConfig); // 基于 craco config 获取 cra webpack 对应环境的配置
     const resultingWebpackConfig = mergeWebpackConfig(cracoConfig, craWebpackConfig, context);
 
     overrideWebpackDevConfig(cracoConfig, resultingWebpackConfig);

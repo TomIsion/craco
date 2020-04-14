@@ -10,6 +10,7 @@ let envLoaded = false;
 function resolveConfigFilePath(cracoConfig, fileName) {
     if (!envLoaded) {
         // Environment variables must be loaded before the CRA paths, otherwise they will not be applied.
+        // 初次需要加载 cra 中的 env.js 文件 先创建构建环境
         require(resolveConfigFilePathInner(cracoConfig, "env.js"));
 
         envLoaded = true;
